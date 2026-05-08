@@ -1,100 +1,196 @@
-# Comprehensive Marketing Analytics Project
+# Marketing Analytics – Comprehensive Academic Project
+**University of Europe for Applied Sciences | MSc Data Science – Semester 2**
 
-## Table of Contents
-1. [Customer Segmentation](#1-customer-segmentation)
-2. [Conjoint Analysis](#2-conjoint-analysis)
-3. [Google Analytics](#3-google-analytics)
-4. [Keywords & Social Media Marketing](#4-keywords--social-media-marketing)
-5. [Tableau Dashboard](#5-tableau-dashboard)
-6. [Conclusion](#conclusion)
+A solo comprehensive marketing analytics project for a fictional **independent online bookstore**, covering five analytical domains: customer segmentation, conjoint analysis, Google Analytics, keyword & social media strategy, and Tableau dashboarding.
 
 ---
 
-## 1. Customer Segmentation
+## Project Structure
 
-**Objective:**  
-Segment customers based on artificial data generated using R and perform k-means clustering to identify distinct customer segments.
+```
+Marketing-Analytics/
+├── 1_Task1/
+│   ├── customer_data_generation.R         # Synthetic customer data generation
+│   ├── Customer_Segmentation_Technique.R  # K-Means clustering
+│   ├── Customer_Data_Visualizations.R     # 9 segmentation visualizations
+│   └── Generated_customer_data.csv        # 1000-row synthetic dataset
+├── 1_Task2/
+│   └── Conjoint_DATA_ANALYSIS.R           # Conjoint analysis & part-worth utilities
+├── 1_Task5/
+│   ├── Tableau_Dashboard.twb              # Tableau workbook
+│   └── IHME_GBD_2010_MORTALITY_...csv    # Dataset used for dashboard
+└── Marketing Analytics Final Project Report.pdf
+```
 
-### Steps Taken:
-1. **Data Generation:** Simulated a dataset of 1000 customers with attributes like Age, Income, Purchase Frequency, Average Spend, and Preferred Genre.
-2. **K-Means Clustering:** Implemented k-means clustering on key variables and divided the dataset into three distinct clusters.
-3. **Visualization & Interpretation:** Visualized the clusters and interpreted the characteristics of each segment.
-
-### Key Findings and Targeted Marketing Strategies:
-- **Cluster 1 (Red):** Younger customers with lower incomes.
-  - **Strategy:** Focus on affordable product offerings.
-  
-- **Cluster 2 (Green):** Customers with a wider range of ages and income levels.
-  - **Strategy:** Develop a balance of affordable and mid-range products.
-  
-- **Cluster 3 (Blue):** Older customers with higher incomes.
-  - **Strategy:** Market premium products and personalized communication.
-
----
-
-## 2. Conjoint Analysis
-
-**Objective:**  
-Perform a Conjoint Analysis to assess how different attributes influence customer preferences.
-
-### Steps Taken:
-1. **Data Overview:** Used the previously generated dataset.
-2. **Methodology:** Defined attributes, created a profile matrix, simulated preferences, and performed the analysis.
-3. **Results and Interpretation:** Analyzed part-worth utilities and visualized results.
-
-### Recommendations:
-- Focus on genre preferences over spending levels in product offerings.
+> Tasks 3 (Google Analytics) and 4 (Keywords & Social Media) are documented with screenshots in the final report PDF.
 
 ---
 
-## 3. Google Analytics
+## Task 1 — Customer Segmentation (R)
 
-**Objective:**  
-Show five types of analytics using the Google Analytics demo account.
+**Business:** Independent online bookstore
+**Objective:** Identify distinct customer groups to enable targeted marketing
 
-### Steps Taken:
-1. **Audience Overview:** Analyzed user demographics and interests.
-2. **Acquisition Overview:** Identified sources of new users and traffic.
-3. **Behavior Flow:** Visualized user navigation through the site.
-4. **Conversion Goals:** Analyzed performance of individual products.
-5. **Custom Report:** Explored user engagement over time.
+### Data Generation
+Generated **1,000 synthetic customers** using R (`dplyr`, `tidyr`) with the following features:
 
-### Why and How These Analytics are Used:
-These analytics provide insights into user behavior, helping businesses tailor their marketing strategies.
+| Feature | Description |
+|---------|-------------|
+| `Age` | 18 – 65 years |
+| `Income` | £20,000 – £100,000 |
+| `PurchaseFrequency` | 1 – 20 purchases |
+| `AvgSpend` | £10 – £50 per purchase |
+| `PreferredGenre` | Fiction, Non-Fiction, Mystery, Romance, Sci-Fi |
+| `TotalSpend` | Derived: PurchaseFrequency × AvgSpend |
 
----
+### Segmentation Method: K-Means Clustering (K=3)
+Clustered on: `Age`, `Income`, `PurchaseFrequency`, `AvgSpend`
 
-## 4. Keywords & Social Media Marketing
+### Visualizations Produced
+1. Scatter plot — Income vs Age by cluster
+2. Scatter plot — Purchase Frequency vs Avg Spend by cluster
+3. Boxplot — Income distribution by cluster
+4. Boxplot — Age distribution by cluster
+5. Bar plot — Preferred genre proportion by cluster
+6. Scatter plot — Cluster centroids overlaid (Income vs Age)
+7. Pairwise scatter matrix — all features colored by cluster
+8. Correlation heatmap — feature relationships
+9. Histogram — Total Spend distribution by cluster
 
-**Objective:**  
-Identify and justify two long-tail keywords for a luxury car rental business and create a corresponding social media advertisement.
+### Segment Profiles & Marketing Strategies
 
-### Long-Tail Keyword Selection:
-1. **Keyword 1:** "Luxury car rental near me"
-   - **Justification:** High search volume and growing trend.
-2. **Keyword 2:** "Rolls Royce rental"
-   - **Justification:** Extremely high search volume and low competition.
+| Cluster | Profile | Recommended Strategy |
+|---------|---------|----------------------|
+| Cluster 1 | Young, lower income, frequent buyers of popular genres | Subscription bundles, loyalty rewards, genre-based newsletters |
+| Cluster 2 | Mid-age, mid-income, balanced spending | Cross-sell recommendations, seasonal promotions, curated reading lists |
+| Cluster 3 | Older, higher income, selective high-value buyers | Premium editions, author events, VIP early access campaigns |
 
-### Social Media Ad Creation:
-- **Platform:** Instagram
-- **Target Audience:** High-income individuals.
-- **Ad Elements:** Headline, visual, description, call to action, discount offer, and contact information.
-
----
-
-## 5. Tableau Dashboard
-
-**Objective:**  
-Create a Tableau dashboard using the IHME GBD 2010 Mortality dataset.
-
-### Dashboard Overview:
-- **Death Rate Over Time:** Bar chart visualizing death rates.
-- **Distribution of Deaths by Gender:** Pie chart showing gender distribution.
-- **Geographic Distribution of Deaths:** Choropleth map visualizing deaths across countries.
+### Tools
+`R` · `dplyr` · `tidyr` · `ggplot2` · `GGally` · `ggcorrplot`
 
 ---
 
-## Conclusion
+## Task 2 — Conjoint Analysis (R)
 
-This comprehensive marketing analytics project has provided valuable insights into customer segmentation, preferences, and behavior. 
-By leveraging data analytics tools and techniques, businesses can develop targeted marketing strategies that resonate with their audience, ultimately driving customer satisfaction and business growth.
+**Objective:** Understand how bookstore customers value different product attributes
+
+### Setup
+- **Attributes analyzed:** `PreferredGenre` (Fiction, Non-Fiction, Mystery, Romance, Sci-Fi) and `AvgSpend` (Low / Medium / High)
+- **Method:** Full-profile conjoint using `caModel()` from the `conjoint` package
+- **Profiles:** All combinations via `expand.grid()`
+- **Output:** Part-worth utility coefficients per attribute level
+
+### Key Output
+Part-worth utilities visualized as a grouped bar chart — identifying which genre and price tier drives the highest customer preference.
+
+### Business Insight
+Results inform decisions such as which genres to prioritize in homepage placements and what price tier positioning maximizes perceived value.
+
+### Tools
+`R` · `conjoint` · `ggplot2`
+
+---
+
+## Task 3 — Google Analytics (Demo Account)
+
+**Objective:** Demonstrate 5 types of web analytics using the Google Analytics demo account
+
+| Analytics Type | Insight Extracted |
+|---------------|------------------|
+| Audience Overview | User demographics, sessions, bounce rate |
+| Acquisition Overview | Traffic source breakdown (organic, paid, direct, referral) |
+| Behavior Flow | User navigation paths through the site |
+| Conversion Goals | Goal completions and conversion rates |
+| Custom Report | Engagement metrics by device category |
+
+> Full screenshots and explanations are documented in the **Final Report PDF**.
+
+---
+
+## Task 4 — Keywords & Social Media Marketing
+
+**Objective:** Identify two long-tail keywords and design a social media ad for the bookstore
+
+### Long-Tail Keywords Selected
+
+| Keyword | Tool Used | Justification |
+|---------|-----------|---------------|
+| *"best mystery books for adults online"* | Google Keyword Planner / SEMrush | Moderate search volume, low keyword difficulty, high purchase intent |
+| *"buy discounted fiction books with free shipping"* | Google Keyword Planner / SEMrush | Targets price-sensitive buyers, aligns with bookstore's value proposition |
+
+**Selection criteria:** Search volume, keyword difficulty, domain authority alignment, and commercial intent relevance to the bookstore business.
+
+### Social Media Ad
+- **Platform:** Instagram / Facebook
+- **Format:** Single image ad with headline, body copy, and CTA
+- **Headline:** "Your Next Favourite Read is Just a Click Away"
+- **CTA:** "Shop Now – Free Shipping on Orders Over £25"
+- **Keywords embedded:** Organically included in ad copy
+
+> Ad design and screenshot included in the **Final Report PDF**.
+
+---
+
+## Task 5 — Tableau Dashboard
+
+**Objective:** Create a multi-chart Tableau dashboard using a real-world dataset
+
+### Dataset
+**IHME Global Burden of Disease (GBD) 2010 — Age-Specific Mortality by Country (1970–2010)**
+
+### Dashboard Components
+
+| Chart Type | Analysis |
+|-----------|----------|
+| Bar Chart | Mortality rates by country/region comparison |
+| Line Chart | Mortality trends over time (1970–2010) |
+| Map | Geographic distribution of mortality rates |
+
+### File
+`Tableau_Dashboard.twb` — open with Tableau Desktop or Tableau Public
+
+> Dashboard screenshots and analysis commentary included in the **Final Report PDF**.
+
+---
+
+## Tools & Technologies
+
+| Domain | Tools |
+|--------|-------|
+| Data Simulation | R (`dplyr`, `tidyr`) |
+| Clustering | R (`stats` — kmeans) |
+| Visualization | R (`ggplot2`, `GGally`, `ggcorrplot`) |
+| Conjoint Analysis | R (`conjoint`) |
+| Web Analytics | Google Analytics (Demo Account) |
+| Keyword Research | Google Keyword Planner / SEMrush |
+| Social Media | Instagram/Facebook Ad Designer |
+| BI Dashboard | Tableau Desktop |
+
+---
+
+## How to Run the R Scripts
+
+```r
+# 1. Install required packages
+install.packages(c("dplyr", "tidyr", "ggplot2", "GGally", "ggcorrplot", "conjoint"))
+
+# 2. Run data generation first
+source("1_Task1/customer_data_generation.R")
+# → Outputs: customer_data.csv
+
+# 3. Run segmentation and visualizations
+source("1_Task1/Customer_Segmentation_Technique.R")
+source("1_Task1/Customer_Data_Visualizations.R")
+
+# 4. Run conjoint analysis
+source("1_Task2/Conjoint_DATA_ANALYSIS.R")
+```
+
+> Update file paths in each script before running (currently set to a local Windows path).
+
+---
+
+## Report
+
+The complete project report with all screenshots, analysis, interpretations, and marketing recommendations is available in:
+📄 `Marketing Analytics Final Project Report.pdf`
